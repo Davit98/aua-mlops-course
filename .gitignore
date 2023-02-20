@@ -136,3 +136,7 @@ dmypy.json
 
 # data
 research_phase/*.csv
+packages/gb_regressor/gb_regressor/datasets/*.csv
+
+# trained models
+packages/gb_regressor/gb_regressor/trained_models/*.pkl
