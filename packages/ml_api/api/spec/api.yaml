@@ -1,0 +1,147 @@
+openapi: 3.0.0 # tells Connexion what version of the Open API is being used
+
+info: # begins a new ‘scope’ of information about the API being built
+  title: Spec for House Price Prediction API # a user defined title included in the Connexion generated UI system
+  version: '1' # a user defined version value for the API
+
+servers:
+- url: http://{base}:5000/
+  description: API for performing house price predictions. # a user defined description of what the API provides
+  variables:
+    base:
+      default: 0.0.0.0
+
+paths: # defines the section of the configuration containing all of the API REST endpoints.
+  /: # defines one path of your URL endpoint.
+    get: # defines the HTTP method this URL endpoint will respond to
+      operationId: api.controller.health # defines Python import path/function that will respond to HTTP GET / request
+      responses: # defines the beginning of the expected response section.
+        '200': # defines the section for a successful response, HTTP status code 200
+          description: API Health Status # defines what the UI interface will display for implementation notes.
+
+  /v1/predictions/gb:
+    post:
+      operationId: api.controller.predict
+      requestBody:
+        description: House details used to make price prediction
+        required: true
+        content:
+          application/json:
+            schema: # defines the response as a schema, or structure.
+              type: array # defines the structure of the schema as an array.
+              items:
+                $ref: '#/components/schemas/HouseDetails'
+      responses:
+        '200':
+          description: House Price Predictions
+        '400':
+          description: Bad request, house data validation failed
+        '5XX':
+          description: Unexpected error
+
+  /v1/predictions/lasso:
+    post:
+      operationId: api.controller.predict_alt
+      requestBody:
+        description: House details used to make price prediction
+        required: true
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/HouseDetails'
+      responses:
+        '200':
+          description: House Price Predictions
+        '400':
+          description: Bad request, house data validation failed
+        '5XX':
+          description: Unexpected error
+
+components:
+  schemas:
+    HouseDetails:
+      type: object
+      description: "List of the houses to get predictions for."
+      example:
+        Id: 1461
+        MSSubClass: 20
+        MSZoning: RH
+        LotFrontage: 80.0
+        LotArea: 11622
+        Street: Pave
+        Alley: null
+        LotShape: Reg
+        LandContour: Lvl
+        Utilities: AllPub
+        LotConfig: Inside
+        LandSlope: Gtl
+        Neighborhood: NAmes
+        Condition1: Feedr
+        Condition2: Norm
+        BldgType: 1Fam
+        HouseStyle: 1Story
+        OverallQual: 5
+        OverallCond: 6
+        YearBuilt: 1961
+        YearRemodAdd: 1961
+        RoofStyle: Gable
+        RoofMatl: CompShg
+        Exterior1st: VinylSd
+        Exterior2nd: VinylSd
+        MasVnrType: None
+        MasVnrArea: 0.0
+        ExterQual: TA
+        ExterCond: TA
+        Foundation: CBlock
+        BsmtQual: TA
+        BsmtCond: TA
+        BsmtExposure: null
+        BsmtFinType1: Rec
+        BsmtFinSF1: 468.0
+        BsmtFinType2: LwQ
+        BsmtFinSF2: 144.0
+        BsmtUnfSF: 270.0
+        TotalBsmtSF: 882.0
+        Heating: GasA
+        HeatingQC: TA
+        CentralAir: Y
+        Electrical: SBrkr
+        1stFlrSF: 896
+        2ndFlrSF: 0
+        LowQualFinSF: 0
+        GrLivArea: 896
+        BsmtFullBath: 0.0
+        BsmtHalfBath: 0.0
+        FullBath: 1
+        HalfBath: 0
+        BedroomAbvGr: 2
+        KitchenAbvGr: 1
+        KitchenQual: TA
+        TotRmsAbvGrd: 5
+        Functional: Typ
+        Fireplaces: 0
+        FireplaceQu: null
+        GarageType: Attchd
+        GarageYrBlt: 1961.0
+        GarageFinish: Unf
+        GarageCars: 1.0
+        GarageArea: 730.0
+        GarageQual: TA
+        GarageCond: TA
+        PavedDrive: Y
+        WoodDeckSF: 140
+        OpenPorchSF: 0
+        EnclosedPorch: 0
+        3SsnPorch: 0
+        ScreenPorch: 120
+        PoolArea: 0
+        PoolQC: null
+        Fence: MnPrv
+        MiscFeature: null
+        MiscVal: 0
+        MoSold: 6
+        YrSold: 2010
+        SaleType: WD
+        SaleCondition: Normal

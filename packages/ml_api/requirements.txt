@@ -1,0 +1,11 @@
+# ML model (gradient boosting regressor)
+git+https://github.com/Davit98/gb_regressor.git
+
+# Another ML model (lasso regressor) solving the same problem as our GB regressor
+# this is for differential testing purposes
+tid-regression-model==3.1.2
+
+# Web microframework for the API
+flask>=1.1.1,<1.2.0
+connexion[swagger-ui]==2.14.1
+markupsafe==2.0.1 # https://github.com/aws/aws-sam-cli/issues/3661
