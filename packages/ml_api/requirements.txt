@@ -9,3 +9,7 @@ tid-regression-model==3.1.2
 flask>=1.1.1,<1.2.0
 connexion[swagger-ui]==2.14.1
 markupsafe==2.0.1 # https://github.com/aws/aws-sam-cli/issues/3661
+
+sqlalchemy>=1.3.11,<1.4.0  # ORM
+psycopg2>=2.8.4,<2.9.0  # DB Driver
+sqlalchemy_utils>=0.36.0,<0.37.0  # DB Utils
