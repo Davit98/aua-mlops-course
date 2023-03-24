@@ -1,0 +1,8 @@
+version: '3'
+services:
+  ml_api:
+    build:
+      context: ./app
+      dockerfile: Dockerfile
+    ports:
+      - "8000:8000"

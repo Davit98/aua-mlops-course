@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+
+
+form {
+    width: fit-content;
+}
+
+.form-field {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 20px;
+
+}
+
+.form-field input {
+    width: 200px;
+    height: 30px;
+    border-radius: 8px;
+    border: 1px solid;
+    padding-left: 13px;
+}
+
+label {
+    font-weight: bold;
+    margin-bottom: 8px;
+}
+
+.submit-btn {
+    display: flex;
+    justify-content: center;
+}
+
+.submit-btn input {
+    padding: 10px 45px;
+    border-radius: 14px;
+    background: #fcc426;
+    border: unset;
+}
+
+    </style>
+    <title>Home</title>
+    <!-- <link rel="stylesheet" type="text/css" href="../static/css/styles.css"> -->
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/styles.css') }}">
+</head>
+<body>
+
+    <header>
+        <div class="container">
+        <div id="brandname">
+            
+        </div>
+        <h2>Breast Cancer Input Data</h2>
+        
+    </div>
+    </header>
+
+    <div class="ml-container">
+
+        <form action="{{ url_for('predict')}}" method="POST">
+            
+            <div class="form-field ">
+                <label for="mean concavity">mean concavity :</label>
+
+                <input type="float" id="mean concavity" name="mean concavity" step="any" placeholder="0.2134" min="0" max="0.4268"><br/>
+
+            </div>
+            
+            <div class="form-field">
+                <label for="worst area">worst area :</label>
+                <input type="float" id="worst area" name="worst area" step="any" placeholder="2219.6" min="185.2" max="4254"><br/>
+
+            </div>
+
+            <div class="form-field">
+                <label for="mean area">mean area :</label>
+                <input type="float" id="mean area" name="mean area" step="any" placeholder="1322.25" min="143.5" max="2501"><br/>
+
+            </div>
+
+
+            <div class="submit-btn">
+                <input type="submit" class="btn-info" value="Predict">
+
+            </div>
+        </form>
+        
+    </div>
+
+
+</body>
+</html>

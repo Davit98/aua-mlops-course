@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/styles.css') }}">
+
+    <style>
+        .content {
+            text-align: center;
+        }
+        .title {
+            font-size: 50px;
+            font-weight: bold;
+        }
+
+        .description {
+            font-size: 40px;
+        }
+        .result{
+            font-size: 50px;
+            color: #cd6a0f;
+            max-width: 500px;
+            margin: 0 auto;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="content">
+            
+        <h2 class="title">Breast Cancer Result</h2>
+        <p class="description">Result for the call</p>
+        <h2 class="result">{{output}}</h2>
+
+    </div>
+
+</body>
+</html>
