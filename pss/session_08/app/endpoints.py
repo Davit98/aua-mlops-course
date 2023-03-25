@@ -3,7 +3,7 @@ import os
 import pickle
 
 import numpy as np
-from flask import render_template, jsonify
+from flask import jsonify
 
 
 APP_DIR = Path(__file__).parent.absolute() 
