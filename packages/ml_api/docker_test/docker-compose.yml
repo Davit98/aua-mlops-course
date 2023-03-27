@@ -1,0 +1,31 @@
+version: '3.8'
+services:
+  ml_api:
+    build:
+      context: ../
+      dockerfile: docker_test/Dockerfile
+    environment:
+      DB_HOST: test_db
+      DB_PORT: 5432
+      DB_USER: test_user
+      DB_PASSWORD: ${DB_PASSWORD:-example}
+      DB_NAME: ml_api_test
+    depends_on:
+      - test_db
+    ports:
+      - "5001:5000"   # expose webserver to localhost host:container
+    command: bash -c "make run-service-development"
+
+  test_db:
+    image: postgres:15
+    environment:
+      POSTGRES_USER: test_user
+      POSTGRES_PASSWORD: example
+      POSTGRES_DB: ml_api_test
+    ports:
+      - "7618:5432"
+    volumes:
+      - my_db_data_test:/var/lib/postgresql/data
+
+volumes:
+  my_db_data_test:

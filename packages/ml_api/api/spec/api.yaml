@@ -19,7 +19,7 @@ paths: # defines the section of the configuration containing all of the API REST
         '200': # defines the section for a successful response, HTTP status code 200
           description: API Health Status # defines what the UI interface will display for implementation notes.
 
-  /v1/predictions/gb:
+  /v1/predictions/lasso:
     post:
       operationId: api.controller.predict
       requestBody:
@@ -39,7 +39,7 @@ paths: # defines the section of the configuration containing all of the API REST
         '5XX':
           description: Unexpected error
 
-  /v1/predictions/lasso:
+  /v1/predictions/gb:
     post:
       operationId: api.controller.predict_alt
       requestBody:

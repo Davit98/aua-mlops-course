@@ -21,10 +21,18 @@ class Config:
     SERVER_PORT = int(os.getenv("SERVER_PORT", 5000))
     SERVER_HOST = os.getenv("SERVER_HOST", "0.0.0.0")
     LOGGING_LEVEL = os.getenv("LOGGING_LEVEL", logging.INFO)
+
+    # DB config matches docker container
+    DB_USER = os.getenv("DB_USER", "user")
+    DB_PASSWORD = os.getenv("DB_PASSWORD", "example")
+    DB_PORT = os.getenv("DB_PORT", 7619)
+    DB_HOST = os.getenv("DB_HOST", "0.0.0.0")
+    DB_NAME = os.getenv("DB_NAME", "ml_api_dev")
+
     SQLALCHEMY_DATABASE_URI = (
-        f"postgresql+psycopg2://{os.getenv('DB_USER')}:"  # dialect = postgresql, driver = psycopg2
-        f"{os.getenv('DB_PASSWORD')}@{os.getenv('DB_HOST')}/{os.getenv('DB_NAME')}"
-    )  # for more on the URI see here: https://docs.sqlalchemy.org/en/20/core/engines.html
+        f"postgresql+psycopg2://{DB_USER}:"  # dialect = postgresql, driver = psycopg2
+        f"{DB_PASSWORD}@{DB_HOST}:{DB_PORT}/{DB_NAME}"
+    )  # more on the URI here: https://docs.sqlalchemy.org/en/20/core/engines.html
 
 
 class DevelopmentConfig(Config):
@@ -37,6 +45,17 @@ class TestingConfig(Config):
     DEBUG = True
     TESTING = True
     LOGGING_LEVEL = logging.DEBUG
+
+    DB_USER = os.getenv("DB_USER", "test_user")
+    DB_PASSWORD = os.getenv("DB_PASSWORD", "example")
+    DB_PORT = os.getenv("DB_PORT", 7618)
+    DB_HOST = os.getenv("DB_HOST", "0.0.0.0")
+    DB_NAME = os.getenv("DB_NAME", "ml_api_test")
+
+    SQLALCHEMY_DATABASE_URI = (
+        f"postgresql+psycopg2://{DB_USER}:"
+        f"{DB_PASSWORD}@{DB_HOST}:{DB_PORT}/{DB_NAME}"
+    )
 
 
 class ProductionConfig(Config):

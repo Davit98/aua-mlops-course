@@ -9,7 +9,7 @@ services:
       DB_PORT: 5432
       DB_USER: user
       DB_PASSWORD: ${DB_PASSWORD:-password}
-      DB_NAME: ml_api_db
+      DB_NAME: ml_api_dev
     depends_on:
       - db
     ports:
@@ -21,9 +21,9 @@ services:
     environment:
       POSTGRES_USER: user
       POSTGRES_PASSWORD: password
-      POSTGRES_DB: ml_api_db
+      POSTGRES_DB: ml_api_dev
     ports:
-      - "5432:5432"
+      - "7619:5432"
     volumes:
       - my_db_data:/var/lib/postgresql/data
 
