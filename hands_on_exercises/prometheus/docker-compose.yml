@@ -1,0 +1,60 @@
+version: '3.8'
+services:
+  webapp:
+    build: .
+    container_name: webapp
+    volumes:
+      - ./:/application
+    expose:
+      - 5000
+    ports:
+      - "5005:5000"
+
+  cadvisor: # see https://prometheus.io/docs/guides/cadvisor/
+    image: gcr.io/cadvisor/cadvisor:v0.46.0
+    container_name: cadvisor
+    privileged: true
+    volumes:
+      - /:/rootfs:ro
+      - /var/run:/var/run:rw
+      - /sys:/sys:ro
+      - /var/lib/docker/:/var/lib/docker:ro
+      - /dev/disk/:/dev/disk:ro
+      - /etc/machine-id:/etc/machine-id:ro
+      - /var/run/docker.sock:/var/run/docker.sock:rw
+    devices:
+      - /dev/kmsg:/dev/kmsg
+    ports:
+      - "8080:8080"
+
+  prometheus:
+    image: prom/prometheus
+    depends_on:
+      - cadvisor
+    container_name: prometheus
+    volumes:
+      - ./config/prometheus/:/etc/prometheus/  # path on the host, relative to the compose file
+      - prometheus_data:/prometheus  # named volume
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+    expose:
+      - 9090
+    ports:
+      - "9090:9090"
+
+  grafana:
+    image: grafana/grafana
+    depends_on:
+      - prometheus
+    container_name: grafana
+    volumes:
+      - grafana_data:/var/lib/grafana
+    environment:
+      - GF_SECURITY_ADMIN_PASSWORD=foobar
+      - GF_USERS_ALLOW_SIGN_UP=false
+    ports:
+      - "3000:3000"
+
+volumes:
+    prometheus_data:
+    grafana_data:
