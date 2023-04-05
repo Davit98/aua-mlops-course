@@ -1,3 +1,4 @@
+import argparse
 import os
 import time
 import typing as t
@@ -42,7 +43,7 @@ def _prepare_inputs(dataframe: pd.DataFrame) -> pd.DataFrame:
     return clean_inputs_df
 
 
-def populate_database(n_predictions: int = 500) -> None:
+def populate_database(n_predictions: int = 500, anomaly: bool = False) -> None:
     """
     Manipulate the test data to generate random
     predictions and save them to the database.
@@ -63,8 +64,18 @@ def populate_database(n_predictions: int = 500) -> None:
             "extend the script to handle more predictions."
         )
 
+    if anomaly:
+        # set extremely low values to generate an outlier
+        n_predictions = 1
+        clean_inputs_df.loc[:, "FirstFlrSF"] = 1
+        clean_inputs_df.loc[:, "LotArea"] = 1
+        clean_inputs_df.loc[:, "OverallQual"] = 1
+        clean_inputs_df.loc[:, "GrLivArea"] = 1
+
     for index, data in clean_inputs_df.iterrows():
         if index >= n_predictions:
+            if anomaly:
+                print('Created 1 anomaly')
             break
 
         response = requests.post(
@@ -84,4 +95,13 @@ def populate_database(n_predictions: int = 500) -> None:
 
 
 if __name__ == "__main__":
-    populate_database(n_predictions=500)
+    anomaly = False
+    parser = argparse.ArgumentParser(
+        description='Send random requests to House Price API.')
+    parser.add_argument('--anomaly', help="generate unusual inputs")
+    args = parser.parse_args()
+    if args.anomaly:
+        print("Generating unusual inputs")
+        anomaly = True
+
+    populate_database(n_predictions=500, anomaly=anomaly)
