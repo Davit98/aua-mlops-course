@@ -1,0 +1,35 @@
+version: '3.8'
+
+services:
+
+  app:
+    build:
+      context: ./app
+      dockerfile: Dockerfile
+    ports:
+      - "8000:8000"
+    volumes: 
+      - ./app:/app
+    depends_on:
+      database:
+        condition: service_healthy
+
+  database:
+    image: postgres:15.2-alpine
+    restart: always
+    environment:
+      POSTGRES_USER: docker_db_user
+      POSTGRES_PASSWORD: the_most_secure_pass
+      POSTGRES_DB: aua_mlops_test_db
+    ports:
+      - "5454:5432"
+    volumes: 
+      - database:/var/lib/postgresql/data
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -d $${POSTGRES_DB} -U $${POSTGRES_USER}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      
+volumes:
+  database:

@@ -1,0 +1,51 @@
+openapi: 3.0.0
+info:
+  title: "API for connecting to db"
+  description: "An API for connecting to a database that runs inside another container"
+  version: "1.0.0"
+  
+servers:
+  - url: "/"
+  
+paths:
+  /:
+    get:
+      operationId: "endpoints.home"
+      tags:
+        - "home"
+      summary: "Prints the purpose of the app."
+      responses:
+        "200":
+          description: "Successfully printed the message."
+  /tuple:
+    post:
+      operationId: "endpoints.add_row"
+      tags:
+        - "table entry"
+      summary: "Create a new entry."
+      description: "Creates a new entry in db."
+      parameters:
+        - name: name
+          in: query
+          description: "name of the person"
+          schema:
+            type: string
+          required: True
+        - name: age
+          in: query
+          description: "age of the person"
+          schema:
+            type: integer
+          required: True
+      responses:
+        '200':
+          description: "OK"
+    get:
+      operationId: "endpoints.get_all_data"
+      tags:
+        - "table entry"
+      summary: "Queries the whole data."
+      description: "Returns the whole data."
+      responses:
+        '200':
+          description: "OK"
