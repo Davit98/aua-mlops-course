@@ -22,7 +22,7 @@ def add_row(name, age):
         sess.commit()
         
     engine.dispose()  # Close the connection to the db.
-    return jsonify({"status": "OK"}), 200
+    return jsonify({}), 200
     
     
 def get_all_data():
