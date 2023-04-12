@@ -1,25 +1,45 @@
-version: 2.1
-
+version: '2.1'
 orbs:
-  python: circleci/python@1.5.0
+  python: circleci/node@5.1.0
+
+
+defaults: &defaults
+  docker:
+    - image: cimg/python:3.9
+  working_directory: ~/project
+
+
+prepare_venv: &prepare_venv
+  run:
+    name: Create venv
+    command: |
+      python -m venv venv
+      source venv/bin/activate
+      pip install --upgrade pip
+      
+
+prepare_tox: &prepare_tox
+  run:
+    name: Install tox
+    command: |
+      pip install --user tox
+
 
 jobs:
-  test_gradient_model_py38:
-    docker:
-      - image: cimg/python:3.8
+  test_gradient_model_py39:
+    <<: *defaults
     working_directory: ~/project/packages/gb_regressor
     steps:
       - checkout:
           path: ~/project
+      - *prepare_tox
       - run:
-          name: Run tests with Python 3.8
+          name: Run tests with Python 3.9
           command: |
-            sudo pip install --upgrade pip
-            pip install --user tox
             tox
-  test_ml_api_py38:
+  test_ml_api_py39:
     docker:
-      - image: cimg/python:3.8
+      - image: cimg/python:3.9
       - image: postgres:15
         environment:
           POSTGRES_USER: test_user
@@ -45,5 +65,5 @@ workflows:
   version: 2
   test-all:
     jobs:
-      - test_gradient_model_py38
-      - test_ml_api_py38
+      - test_gradient_model_py39
+      - test_ml_api_py39
