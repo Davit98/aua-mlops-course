@@ -1,7 +1,4 @@
 version: '2.1'
-orbs:
-  python: circleci/node@5.1.0
-
 
 defaults: &defaults
   docker:
