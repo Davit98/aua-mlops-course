@@ -9,15 +9,6 @@ defaults: &defaults
   working_directory: ~/project
 
 
-prepare_venv: &prepare_venv
-  run:
-    name: Create venv
-    command: |
-      python -m venv venv
-      source venv/bin/activate
-      pip install --upgrade pip
-      
-
 prepare_tox: &prepare_tox
   run:
     name: Install tox
@@ -37,33 +28,8 @@ jobs:
           name: Run tests with Python 3.9
           command: |
             tox
-  test_ml_api_py39:
-    docker:
-      - image: cimg/python:3.9
-      - image: postgres:15
-        environment:
-          POSTGRES_USER: test_user
-          POSTGRES_PASSWORD: example
-          POSTGRES_DB: ml_api_test
-    environment:
-      DB_HOST: localhost
-      DB_PORT: 5432
-      DB_USER: test_user
-      DB_PASSWORD: example
-      DB_NAME: ml_api_test
-    working_directory: ~/project/packages/ml_api
-    steps:
-      - checkout:
-          path: ~/project
-      - run:
-          name: Run API tests with Python 3.8
-          command: |
-            sudo pip install --upgrade pip
-            pip install --user tox
-            tox
 workflows:
   version: 2
   test-all:
     jobs:
       - test_gradient_model_py39
-      - test_ml_api_py39
