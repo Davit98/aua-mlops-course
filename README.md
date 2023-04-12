@@ -1,3 +1,5 @@
 # AUA MLOps Course
 
-Here you can find our example project, the materials used during our coding lab sessions and PSS.
+Here you can find our 
+- example project along with coding lab sessions, 
+- and the materials used during PSS.
