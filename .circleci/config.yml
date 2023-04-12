@@ -1,9 +1,12 @@
 version: 2.1
 
+orbs:
+  python: circleci/python@1.5.0
+
 jobs:
   test_gradient_model_py38:
     docker:
-      - image: circleci/python:3.8.0
+      - image: cimg/python:3.8
     working_directory: ~/project/packages/gb_regressor
     steps:
       - checkout:
@@ -13,10 +16,10 @@ jobs:
           command: |
             sudo pip install --upgrade pip
             pip install --user tox
-            tox -e py38
+            tox
   test_ml_api_py38:
     docker:
-      - image: circleci/python:3.8.1
+      - image: cimg/python:3.8
       - image: postgres:15
         environment:
           POSTGRES_USER: test_user
@@ -37,7 +40,7 @@ jobs:
           command: |
             sudo pip install --upgrade pip
             pip install --user tox
-            tox -e py38
+            tox
 workflows:
   version: 2
   test-all:
