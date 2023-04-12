@@ -14,3 +14,6 @@ tid-regression-model==3.1.2
 black>=19.10b0,<20.0 # python code auto-formatter
 flake8>=3.7.9,<4.0 # linter program for analyzing code and flagging errors
 mypy>=0.740 # optional static type checker for Python
+
+# kaggle cli
+kaggle>=1.5.6,<1.6.0
