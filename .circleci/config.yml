@@ -18,6 +18,9 @@ fetch_data: &fetch_data
   run:
     name: Fetch and prepare kaggle data
     command: |
+      pip install pip -U
+      pip install pipenv -U
+      pip install virtualenv -U
       pip install --user kaggle
       pip show kaggle
       chmod +x ./scripts/fetch_kaggle_dataset.sh
