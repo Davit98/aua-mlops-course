@@ -1,0 +1,72 @@
+version: '2.1'
+orbs:
+  node: circleci/node@5.1.0
+
+defaults: &defaults
+  docker:
+    - image: cimg/python:3.9
+  working_directory: ~/project
+
+
+prepare_tox: &prepare_tox
+  run:
+    name: Install tox
+    command: |
+      pip install --user tox
+      pip show tox
+
+fetch_data: &fetch_data
+  run:
+    name: Fetch and prepare kaggle data
+    command: |
+      pip install pip -U
+      pip install pipenv -U
+      pip install virtualenv -U
+      pip install --user kaggle
+      pip show kaggle
+      chmod +x ./scripts/fetch_kaggle_dataset.sh
+      ./scripts/fetch_kaggle_dataset.sh
+jobs:
+  test_gb_model_py39:
+    <<: *defaults
+    working_directory: ~/project/packages/gb_regressor
+    steps:
+      - checkout:
+          path: ~/project
+      - *fetch_data
+      - *prepare_tox
+      - run:
+          name: Run tests with Python 3.9
+          command: |
+            tox
+  
+  deploy_app_to_railway:
+    <<: *defaults
+    steps:
+      - checkout:
+          path: ~/project
+      - node/install:
+          node-version: '16.13'
+      - run: node --version
+      - run: npm i -g @railway/cli
+      - run:
+          name: Deploy to Railway App (You must set RAILWAY_TOKEN env var)
+          command: |
+            cd packages/ml_api && railway up --detach
+
+  # TODO: add jobs deploy_app_container_via_railway, test_ml_api_py39
+      
+
+workflows:
+  version: 2
+  deploy_pipeline:
+    jobs:
+      - test_gb_model_py39
+      - deploy_app_to_railway:
+          requires:
+            - test_gb_model_py39
+          filters:
+            branches:
+              only:
+                - main
+                - railway-deployment
