@@ -9,3 +9,6 @@ tid-regression-model==3.1.2
 flask>=1.1.1,<1.2.0
 connexion[swagger-ui]==2.14.1
 markupsafe==2.0.1 # https://github.com/aws/aws-sam-cli/issues/3661
+
+# this is necessary for deployment with railway
+gunicorn==20.1.0
