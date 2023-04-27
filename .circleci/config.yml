@@ -65,8 +65,9 @@ workflows:
       - deploy_app_to_railway:
           requires:
             - test_gb_model_py39
-          filters:
-            branches:
-              only:
-                - main
-                - railway-deployment
+#          filters:
+#            branches:
+#              only:
+#                - main
+#                - railway-deployment
+#                - test-railway-deployment
