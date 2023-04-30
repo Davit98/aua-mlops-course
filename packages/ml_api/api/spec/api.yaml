@@ -63,7 +63,7 @@ components:
   schemas:
     HouseDetails:
       type: object
-      description: "List of the houses to get predictions for."
+      description: "Sample house to get predictions for."
       example:
         Id: 1461
         MSSubClass: 20
