@@ -54,19 +54,37 @@ jobs:
           command: |
             cd packages/ml_api && railway up --detach
 
-  # TODO: add jobs deploy_app_container_via_railway, test_ml_api_py39
-      
+  deploy_app_container_via_railway:
+    <<: *defaults
+    steps:
+#      - setup_remote_docker:
+#          version: 20.10.17
+      - checkout:
+          path: ~/project
+      - node/install:
+          node-version: '16.13'
+      - run: node --version
+      - run: npm i -g @railway/cli
+      - run:
+          name: Build and run Dockerfile (see https://docs.railway.app/deploy/dockerfiles)
+          command: |
+            cd packages/ml_api && railway up --detach
+
 
 workflows:
   version: 2
   deploy_pipeline:
     jobs:
       - test_gb_model_py39
-      - deploy_app_to_railway:
+#      - deploy_app_to_railway:
+#          requires:
+#            - test_gb_model_py39
+#          filters:
+#            branches:
+#              only:
+#                - main
+#                - railway-deployment
+#                - test-railway-deployment
+      - deploy_app_container_via_railway:
           requires:
             - test_gb_model_py39
-          filters:
-            branches:
-              only:
-                - main
-                - railway-deployment
