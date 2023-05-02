@@ -1,7 +1,7 @@
 openapi: 3.0.0 # tells Connexion what version of the Open API is being used
 
 info: # begins a new ‘scope’ of information about the API being built
-  title: House Price Prediction API # a user defined title included in the Connexion generated UI system
+  title: House Price Prediction Swagger API # a user defined title included in the Connexion generated UI system
   version: '1' # a user defined version value for the API
 
 servers:

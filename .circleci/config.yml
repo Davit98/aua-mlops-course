@@ -57,8 +57,8 @@ jobs:
   deploy_app_container_via_railway:
     <<: *defaults
     steps:
-      - setup_remote_docker:
-          version: 20.10.17
+#      - setup_remote_docker:
+#          version: 20.10.17
       - checkout:
           path: ~/project
       - node/install:
